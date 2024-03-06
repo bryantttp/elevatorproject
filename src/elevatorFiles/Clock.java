@@ -17,6 +17,7 @@ public class Clock {
 		return Clock.time;
 	}
 	
+
 	/**
 	 * Method to increase simulated time
 	 */
