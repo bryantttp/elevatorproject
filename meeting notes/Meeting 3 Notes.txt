@@ -1,0 +1,71 @@
+
+
+synchronize wait and notifyAll
+
+class ThreadManager{
+	run()
+	join();
+	
+	if ( there is call ) {
+	
+	}
+
+}
+
+
+when we do reading, we can read all the commands and store them in a array
+only one elevator can access the array at one time
+elevator will remove the call when they execute
+
+lift1 moving (3 -> 6)
+lift2 idle (4)
+lift3 idle (6)
+
+now i have a call at floor 8
+
+
+- elevatorThread.run() -> change to accept multiple runnables, only one thread can read from queue at once (MORELLA)
+- update setCommands(file) - shorten a bit (TIM)
+- add a method to read from console and add to the same queue -> easy
+- wait and notifyAll implementation (MAY)
+- add timing -> easy (TIM)
+- make elevator application run forever, until prompted to stop (MANNJOE)
+- create callQueue in thread (TIM)
+
+THREAD POOL DESIGN PATTERN!!!
+
+
+textfile -> manager -> callQueue1 (in thread) -> elevatorThread1 -> elevator1
+textfile -> manager -> callQueue2 (in thread) -> elevatorThread2 -> elevator2
+
+1. textfile / console input
+2. manager reads command and add to call queue (common)
+3. manager decides which elevator should take first call in queue
+3a. if more than one elevator is idle, manager decide closest idle elevator
+3b. if only one elevator is idle, manager lets elevator take the call
+3c. manager puts the call into a queue attribute in elevatorThread
+3d. elevatorThread executes when it is idle
+4. elevatorThread takes call and runs
+5. elevator moves
+6. elevator goes to idle - wait and notifyAll
+
+
+
+
+
+
+
+presentation - 2 people 
+> assumptions
+> design choice
+> challenges
+> features
+> ...
+
+
+UML - 1 person
+code - 3 people
+tests - 1 person
+
+
+

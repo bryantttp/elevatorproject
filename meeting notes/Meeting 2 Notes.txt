@@ -1,0 +1,70 @@
+move - if it is at floor 1 and receives the call,
+
+
+- moving to passenger floor
+- load
+- moving to destination floor
+- offload
+
+runner class - creates all the threads, then add to manager
+
+
+
+main thread -> manager
+elevatorThread1 runnable -> elevator1
+elevatorThread2 runnable -> elevator2
+...
+
+whichElevatorToGo {
+	while ( queue is not empty) {
+	
+	// instantiate the temp elevator thread
+	
+	...
+	boolean flag condition = false;
+		for ( elevator : elevatorList ) {
+				if ( lift is idle ) --> check distance (set to true) --> 
+				
+		}
+		if flag = false;
+			wait
+		else {
+			... // start elevator thread and tell elevator to go where
+		}
+	
+	}
+}
+
+
+to check for idle lifts, we can use a map
+map < elevatorThread, currentFloor >
+we can access the state through getState method
+
+while we are looping through the map of elevator threads, 
+check if they are idle, then check distance in the same loop
+save as minimum distance -> save the lift with min distance
+
+one methods reads the file and saves into a queue -> can go to another method or class
+whichElevatorToGo reads the first item of queue and chooses elevatorThread -> manager class
+whichElevatorToGo starts the Thread, calls startElevatorThread -> can be manager or new class
+
+startElevatorThread method -> starts the elevator job, separate method
+
+elevatorThread - tell elevator
+1. go to guest
+2. load guest
+3. go to destination
+4. unload guest
+5. change back to idle, notifyAll
+
+
+presentation - 2 people
+> assumptions
+> design choice
+> challenges
+> features
+> ...
+UML - 1 person
+code - 3 people
+tests - 1 person
+

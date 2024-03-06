@@ -1,0 +1,47 @@
+- minimum 2 elevators - we can add in the future
+- 10 floors 
+
+multi-threading - one thread per elevator
+
+10 	
+9
+8
+7
+6	
+5	
+4	elevator1 
+3
+2
+1 	elevator2 
+
+
+
+5 -> 3
+which elevator goes to 5?
+
+state design pattern
+idle or moving
+
+
+let's say elevator 1 (4 -> 10)
+do we pick up guests at 7? no -> we just check whether elevator is idle or moving
+we only assign calls to idle elevators
+we can assign a timeframe per floor (250ms)
+
+
+normal sequential queue
+										manager 
+queue: (last) order4 > order3 > order2 > order1 (first)
+
+multi-threaded part refers to how lift1 can move while lift2 is taking orders
+
+
+call-time // origin-floor  // dest-floor
+
+
+one thread per elevator - manager reads and sets elevator to go
+reading is done sequentially? - if all of them are moving, then wait
+
+--- workload ---
+
+
