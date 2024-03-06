@@ -13,9 +13,7 @@ public class Clock {
 		
 	}
 	
-	public static int getTime() {
-		return Clock.time;
-	}
+	
 	
 
 	/**
