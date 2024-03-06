@@ -6,6 +6,9 @@ public class Clock {
 	// Create a static time variable which increases forever as the simulation runs
 	private static int time = 0;
 	
+
+	// Add default constructor
+	
 	public Clock() {
 		
 	}
