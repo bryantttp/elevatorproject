@@ -14,6 +14,9 @@ public class Clock {
 		return Clock.time;
 	}
 	
+	/**
+	 * Method to increase simulated time
+	 */
 	public static void tick() {
 		time++;
 	}
