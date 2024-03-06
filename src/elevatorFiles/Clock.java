@@ -17,9 +17,7 @@ public class Clock {
 		return Clock.time;
 	}
 	
-	public static void tick() {
-		time++;
-	}
+
 	
 	public static void tick(int duration) {
 		time+=duration;
