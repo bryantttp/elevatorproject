@@ -6,8 +6,8 @@ package elevatorFiles;
  */
 public class Elevator {
 
-	private final int MOVE_TIME = 500;
-	private final int LOAD_UNLOAD_TIME = 2500;
+	private final int MOVE_TIME = 1000;
+	private final int LOAD_UNLOAD_TIME = 5000;
 	private final int FACTOR = 5;
 
 	private int currentFloor = 1;
@@ -46,7 +46,6 @@ public class Elevator {
 	public void load() {
 		// Print message indicating loading passengers
 		System.out.println("Time: " + Clock.getTime() + " \t| " + "Loading passengers in " + getElevatorThreadName());
-		System.out.println("Loading passengers in " + getElevatorThreadName());
 		try {
 			// Simulate loading passengers
 			Thread.sleep(LOAD_UNLOAD_TIME);
@@ -56,8 +55,7 @@ public class Elevator {
 			e.printStackTrace();
 		}
 		// Print message indicating all passengers are aboard
-		System.out.print("Time: " + Clock.getTime() + " \t| " + "Passengers all aboard " + getElevatorThreadName());
-		System.out.println("Passengers all aboard " + getElevatorThreadName());
+		System.out.println("Time: " + Clock.getTime() + " \t| " + "Passengers all aboard " + getElevatorThreadName());
 	}
 
 	/**

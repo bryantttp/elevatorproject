@@ -25,6 +25,10 @@ public class Runner {
 		}
 
 		// Deploy elevators
-		manager.deployElevators();
+		try {
+			manager.deployElevators();
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
 	}
 }

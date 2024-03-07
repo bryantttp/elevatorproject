@@ -33,7 +33,7 @@ public class Clock {
 	 * @param duration the duration of simulated seconds to increase time by
 	 */
 	public static void tick(int duration) {
-		time+=duration;
+		time += duration;
 	}
 	
 }
