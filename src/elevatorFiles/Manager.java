@@ -70,44 +70,11 @@ public class Manager {
         System.out.println("Commands received");
     }
     
-//    /**
-//     * Determines which elevator to assign a command to.
-//     */
-//    public void deployElevators() {
-//        while (this.commands.size() != 0) {
-//            boolean flagCondition = false;
-//            ElevatorThread elevator = new ElevatorThread();
-//            int distance = Integer.MAX_VALUE;
-//            for (ElevatorThread e : this.elevators.keySet()) {
-//                // Checks if elevator is idle
-//                if (e.getElevator().getCurrentState() == "Idle") {
-//                    // Input to get elevator
-//                    if (Math.abs(e.getElevator().getCurrentFloor()- this.commands.peek()[0]) <= distance ) {
-//                        elevator = e;
-//                        distance = Math.abs(e.getElevator().getCurrentFloor()- this.commands.peek()[0]);
-//                        flagCondition = true;
-//                    }
-//                }
-//            }
-//            if (flagCondition == true) {
-//                elevator.setTasks(commands.poll());
-//                elevator.getElevator().setCurrentState("Moving");
-//            }
-//            else {
-//                try {
-//                	System.out.println("Waiting");
-//                    synchronized(lock) {
-//                        lock.wait();
-//                    }
-//                    System.out.println("Resume");
-//                } catch (InterruptedException e1) {
-//                    e1.printStackTrace();
-//                }
-//            }
-//            
-//        }
-//            
-//    }
+    /**
+     * sends command to nearest elevator
+     * calls selectedElevator() to check for nearest idle elevator
+     * calls waitForElevatorAvailability() synchronized lock
+     */
     public void deployElevators() {
         while (!commands.isEmpty()) {
             ElevatorThread selectedElevator = findNearestIdleElevator();
@@ -122,7 +89,13 @@ public class Manager {
             }
         }
     }
-
+    
+    /**
+     * checks for idle elevators
+     * then filters through them to find the nearest one to next call
+     * 
+     * @return elevatorThread of the nearest elevator
+     */
     private ElevatorThread findNearestIdleElevator() {
         ElevatorThread selectedElevator = null;
         int minDistance = Integer.MAX_VALUE;
@@ -139,7 +112,10 @@ public class Manager {
 
         return selectedElevator;
     }
-
+    
+    /**
+     * synchronized lock to check if elevators are available for calls
+     */
     private void waitForElevatorAvailability() {
         try {
             System.out.println("Waiting");
