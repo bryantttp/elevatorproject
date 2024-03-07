@@ -5,27 +5,26 @@ import java.io.File;
 public class Runner {
 	public static void main(String[] args) {
 		Manager manager = new Manager();
-		Elevator elevator1 = new Elevator();
-		Elevator elevator2 = new Elevator();
-//		Elevator elevator3 = new Elevator();
-		
-		ElevatorThread elevatorThread1 = new ElevatorThread();
-		elevatorThread1.setElevator(elevator1);
-		ElevatorThread elevatorThread2 = new ElevatorThread();
-		elevatorThread2.setElevator(elevator2);		
-//		ElevatorThread elevatorThread3 = new ElevatorThread();
-//		elevatorThread3.setElevator(elevator3);
-		
-		manager.setElevators(elevatorThread1,elevatorThread2);
-		manager.getElevators().get(elevatorThread1).setName("Elevator 1");
-		manager.getElevators().get(elevatorThread2).setName("Elevator 2");
-//		manager.getElevators().get(elevatorThread3).setName("Elevator 3");
+		final int NUMBER_OF_ELEVATORS = 3; // Set the number of elevators here
 
-		// Add file to the brackets here to simulate commands
+		// Create elevators and elevator threads dynamically
+		for (int i = 1; i <= NUMBER_OF_ELEVATORS; i++) {
+			Elevator elevator = new Elevator();
+			ElevatorThread elevatorThread = new ElevatorThread();
+			elevatorThread.setElevator(elevator);
+			manager.getElevators().put(elevatorThread, new Thread(elevatorThread));
+			manager.getElevators().get(elevatorThread).setName("Elevator " + i);
+		}
+
+		// Set commands file
 		manager.setCommands(new File("test.txt"));
 
-		manager.getElevators().get(elevatorThread1).start();
-		manager.getElevators().get(elevatorThread2).start();
-		manager.whichElevatorToGo();
+		// Start elevator threads
+		for (Thread thread : manager.getElevators().values()) {
+			thread.start();
+		}
+
+		// Deploy elevators
+		manager.deployElevators();
 	}
 }

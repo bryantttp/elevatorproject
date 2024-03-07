@@ -13,11 +13,12 @@ public class Clock {
 		
 	}
 	
-	public static int getTime() {
-
-
-
-		return Clock.time;
+	public static String getTime() {
+		String minutes = String.valueOf(time / 60);
+		String seconds = String.format("%02d", time % 60);
+		
+		String displayTime = (minutes) + ":" + String.valueOf(seconds);
+		return displayTime;
 	}
 	
 

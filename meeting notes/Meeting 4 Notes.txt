@@ -18,10 +18,20 @@ conflict resolution
 11. git push (done)
 
 
-- At the end of running command, the elevatorThread should notify Manager
-- We want the elevatorThreads to set to idle when there is no command, and wait() 
-	-> Manager needs to notify lift to activate them before sending command
-- Create scanner console input to put into queue
+- At the end of running command, the elevatorThread should notify Manager 5b (MANNJOE & BRYANT)
+- We want the elevatorThreads to set to idle when there is no command, and wait() (MANNJOE & BRYANT)
+	-> Manager needs to notify lift to activate them before sending command (MANNJOE & BRYANT)
+- Create scanner console input to put into queue (MORELLA)
+- Refactor code 
+	-> split the whichElevatorToGo() (MAY, BRYANT)
+	-> use ElevatorCommand class to store commands as objects (TIM)
+	-> add comments / JavaDoc (TIM)
+	-> improve readability of console - add more prompts to see what  (i.e., guest calling from x to y) (TIM)
+- Create slides (MAY)
+- Create UML (TIM)
+
+
+
 
 ---- Full Program Flow ----
 1. Manager reads text file, gets commands
