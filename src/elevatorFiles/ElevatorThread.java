@@ -72,7 +72,7 @@ public class ElevatorThread implements Runnable {
 				elevator.load();
 				elevator.move(command.getDestination());
 				elevator.offload();
-				System.out.println(Thread.currentThread().getName() + " is available");
+				System.out.println(Thread.currentThread().getName() + " is available at Level " + elevator.getCurrentFloor());
 				synchronized (Manager.lock) {
 					Manager.lock.notifyAll(); // Notify other threads waiting on Manager.lock
 				}
