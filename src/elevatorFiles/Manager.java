@@ -8,6 +8,7 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Map;
 import java.util.Queue;
+import java.util.Scanner;
 
 /**
  * The Manager class manages the elevators and commands in the simulation.
@@ -16,6 +17,8 @@ public class Manager {
 	private Map<ElevatorThread, Thread> elevators = new HashMap<ElevatorThread, Thread>();
 	private Queue<ElevatorCommand> commands = new LinkedList<>();
 	static Object lock = new Object();
+	int origin;
+	int destination;
 
 	/**
 	 * Retrieves the elevators.
@@ -119,6 +122,92 @@ public class Manager {
 
 		return selectedElevator;
 	}
+	
+	 /**
+     * check if input is numeric
+     * @param str
+     * @return
+     */
+    public static boolean isNumeric(String str) { 
+    	  try {  
+    	    Integer.parseInt(str);  
+    	    return true;
+    	  } catch(NumberFormatException e){  
+    	    return false;  
+    	  }  
+    	}
+
+    /*
+     * asks the user if they want to input things to the console
+     */
+    public void consoleCommands() {
+	    Scanner sc = new Scanner(System.in);
+	    System.out.println("Do you want to input passenger commands to the console?");
+	    String response = null;
+	    while((response = sc.nextLine()).isEmpty()) {
+	    	System.out.println("Invalid Response, please input a Yes or No answer");
+	    }
+
+	    // if they want to add inputs to the console
+	    // only typing yes will allow you to add more commands
+	    if (response.charAt(0) == 'Y' || response.charAt(0) == 'y'){
+	    	getCommandsFromConsole();
+	    }
+
+    }
+    /*
+     * for an input floor and an output destination
+     */
+    public void getCommandsFromConsole(){
+
+	    boolean morePassengerCommands = true;
+	    while (morePassengerCommands) {
+		    Scanner sc = new Scanner(System.in);  // Create a Scanner object
+
+		    System.out.println("Enter which floor you're in");
+		    String line1;	
+		    
+		    // checks if  the input was empty and if not numeric
+		    	// while line1 is empty and not numeric
+		    while((line1 = sc.nextLine()).isEmpty() || !isNumeric(line1)) {
+		    	
+		    	System.out.println("Enter which floor you're in again");
+		    }
+		    
+
+		    origin = Integer.parseInt(line1);  // Read user input and change it to integer
+		    
+		    // destination floor
+		    System.out.println("Enter which floor to go");
+		    String line2 = null;
+		    // checks if  the input was empty
+		    while((line2 = sc.nextLine()).isEmpty() || !isNumeric(line1)) {
+		    	System.out.println("Enter which floor you're in");
+		    }
+		    destination = Integer.parseInt(line2);  // Read user input and change it to integer
+		    
+		    // add them to the commands
+		    this.commands.add( new ElevatorCommand(origin, destination));
+
+		    
+		    // checks if there are more passengers to be loaded
+		    System.out.println("Any more passengers wanting to board?");
+		    String response = null;
+		    while((response = sc.nextLine()).isEmpty()) {
+		    	System.out.println("Any more passengers wanting to board?");
+		    }
+
+		    // only typing yes will allow you to add more commands
+		    if (response.charAt(0) == 'Y' || response.charAt(0) == 'y'){
+		    	morePassengerCommands = true;
+		    }
+		    else {
+		    	break;
+		    }
+
+	    }
+    }
+    
 
 	/**
 	 * synchronized lock to check if elevators are available for calls
