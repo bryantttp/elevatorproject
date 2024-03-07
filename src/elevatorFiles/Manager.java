@@ -15,7 +15,7 @@ import java.util.Queue;
  */
 public class Manager {	
     private Map<ElevatorThread,Thread> elevators = new HashMap<ElevatorThread,Thread>();
-    private Queue<Integer[]> commands = new LinkedList<Integer[]>();
+    private Queue<ElevatorCommand> commands = new LinkedList<>();
     static Object lock = new Object();
     
     /**
@@ -41,7 +41,7 @@ public class Manager {
      * Retrieves the commands.
      * @return A queue containing the commands.
      */
-    public Queue<Integer[]> getCommands(){
+    public Queue<ElevatorCommand> getCommands(){
         return commands;
     }
     
@@ -58,10 +58,8 @@ public class Manager {
                 for (int i = 0; i < input.length ; i += 2) {
                     int origin = Integer.parseInt(input[i]);
                     int destination = Integer.parseInt(input[i+1]);
-                    Integer[] tempCommand = new Integer[2];
-                    tempCommand[0] = origin;
-                    tempCommand[1] = destination;
-                    this.commands.add(tempCommand);
+                    ElevatorCommand inputCommand = new ElevatorCommand(origin, destination);
+                    this.commands.add(inputCommand);
                 }
             }
             bR.close();
@@ -83,9 +81,9 @@ public class Manager {
                 // Checks if elevator is idle
                 if (e.getElevator().getCurrentState() == "Idle") {
                     // Input to get elevator
-                    if (Math.abs(e.getElevator().getCurrentFloor()- this.commands.peek()[0]) <= distance ) {
+                if (Math.abs(e.getElevator().getCurrentFloor()- this.commands.peek().getOrigin()) <= distance ) {
                         elevator = e;
-                        distance = Math.abs(e.getElevator().getCurrentFloor()- this.commands.peek()[0]);
+                        distance = Math.abs(e.getElevator().getCurrentFloor()- this.commands.peek().getOrigin());
                         flagCondition = true;
                     }
                 }
