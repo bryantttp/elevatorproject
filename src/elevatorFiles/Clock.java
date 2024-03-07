@@ -1,42 +1,39 @@
 package elevatorFiles;
 
-/**
- * The Clock class represents the simulation clock. It keeps track of the
- * simulated time.
- */
 public class Clock {
 
 	// Attribute
 	// Create a static time variable which increases forever as the simulation runs
 	private static int time = 0;
+	
 
-	// Default constructor
-	public Clock() {
-
-	}
-
-	/**
-	 * Gets the current simulated time.
+	
+	/** Returns a clock-display format of time for console printing purposes
 	 * 
-	 * @return The current simulated time.
+	 * @return displayTime time in a clock format xx:yy 
 	 */
-	public static int getTime() {
-		return time;
+	public static String getTime() {
+		String minutes = String.valueOf(time / 60);
+		String seconds = String.format("%02d", time % 60);
+		
+		String displayTime = (minutes) + ":" + String.valueOf(seconds);
+		return displayTime;
 	}
+	
 
 	/**
-	 * Method to increase simulated time by one unit.
+	 * Method to increase simulated time
 	 */
 	public static void tick() {
 		time++;
 	}
-
+	
 	/**
-	 * Method to increase simulated time by a specified duration.
-	 * 
-	 * @param duration The duration by which to increase the simulated time.
+	 * Overloaded method to increase simulated time with specified input
+	 * @param duration the duration of simulated seconds to increase time by
 	 */
 	public static void tick(int duration) {
-		time += duration;
+		time+=duration;
 	}
+	
 }

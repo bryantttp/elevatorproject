@@ -10,8 +10,8 @@ import java.util.Queue;
 public class ElevatorThread implements Runnable {
 
 	private Elevator elevator;
-	private Queue<Integer[]> tasks = new LinkedList<>();
-	private Integer[] command;
+	private Queue<ElevatorCommand> tasks = new LinkedList<>();
+	private ElevatorCommand command;
 
 	/**
 	 * Get the elevator associated with this thread.
@@ -36,7 +36,7 @@ public class ElevatorThread implements Runnable {
 	 * 
 	 * @return The command associated with this thread.
 	 */
-	public Integer[] getCommand() {
+	public ElevatorCommand getCommand() {
 		return command;
 	}
 
@@ -45,7 +45,7 @@ public class ElevatorThread implements Runnable {
 	 * 
 	 * @param command The command to be associated with this thread.
 	 */
-	public void setCommand(Integer[] command) {
+	public void setCommand(ElevatorCommand command) {
 		this.command = command;
 	}
 
@@ -54,8 +54,9 @@ public class ElevatorThread implements Runnable {
 	 * 
 	 * @param command The command to be added to the task queue.
 	 */
-	public void setTasks(Integer[] command) {
+	public void setTasks(ElevatorCommand command) {
 		this.tasks.add(command);
+		
 	}
 
 	/**
@@ -73,7 +74,7 @@ public class ElevatorThread implements Runnable {
 	 * @param elevator The elevator associated with this thread.
 	 * @param command  The initial command for this thread.
 	 */
-	public ElevatorThread(Elevator elevator, Integer[] command) {
+	public ElevatorThread(Elevator elevator, ElevatorCommand command) {
 		this.elevator = elevator;
 		this.command = command;
 	}
@@ -84,12 +85,14 @@ public class ElevatorThread implements Runnable {
 	 */
 	@Override
 	public synchronized void run() {
+
 		while (true) {
 			if (!tasks.isEmpty()) {
 				command = tasks.poll(); // Retrieve and remove the next command from the task queue
-				elevator.move(command[0]);
+				System.out.println(elevator.getElevatorThreadName() + " is accepting call from passengers at Level " + command.getOrigin());
+				elevator.move(command.getOrigin());
 				elevator.load();
-				elevator.move(command[1]);
+				elevator.move(command.getDestination());
 				elevator.offload();
 				System.out.println(Thread.currentThread().getName() + " is available");
 				synchronized (Manager.lock) {
@@ -99,5 +102,7 @@ public class ElevatorThread implements Runnable {
 				elevator.setCurrentState("Idle");
 				}
 			}
+
 		}
-	}
+}
+

@@ -70,42 +70,85 @@ public class Manager {
         System.out.println("Commands received");
     }
     
-    /**
-     * Determines which elevator to assign a command to.
-     */
+//    /**
+//     * Determines which elevator to assign a command to.
+//     */
+//    public void deployElevators() {
+//        while (this.commands.size() != 0) {
+//            boolean flagCondition = false;
+//            ElevatorThread elevator = new ElevatorThread();
+//            int distance = Integer.MAX_VALUE;
+//            for (ElevatorThread e : this.elevators.keySet()) {
+//                // Checks if elevator is idle
+//                if (e.getElevator().getCurrentState() == "Idle") {
+//                    // Input to get elevator
+//                    if (Math.abs(e.getElevator().getCurrentFloor()- this.commands.peek()[0]) <= distance ) {
+//                        elevator = e;
+//                        distance = Math.abs(e.getElevator().getCurrentFloor()- this.commands.peek()[0]);
+//                        flagCondition = true;
+//                    }
+//                }
+//            }
+//            if (flagCondition == true) {
+//                elevator.setTasks(commands.poll());
+//                elevator.getElevator().setCurrentState("Moving");
+//            }
+//            else {
+//                try {
+//                	System.out.println("Waiting");
+//                    synchronized(lock) {
+//                        lock.wait();
+//                    }
+//                    System.out.println("Resume");
+//                } catch (InterruptedException e1) {
+//                    e1.printStackTrace();
+//                }
+//            }
+//            
+//        }
+//            
+//    }
     public void deployElevators() {
-        while (this.commands.size() != 0) {
-            boolean flagCondition = false;
-            ElevatorThread elevator = new ElevatorThread();
-            int distance = Integer.MAX_VALUE;
-            for (ElevatorThread e : this.elevators.keySet()) {
-                // Checks if elevator is idle
-                if (e.getElevator().getCurrentState() == "Idle") {
-                    // Input to get elevator
-                    if (Math.abs(e.getElevator().getCurrentFloor()- this.commands.peek()[0]) <= distance ) {
-                        elevator = e;
-                        distance = Math.abs(e.getElevator().getCurrentFloor()- this.commands.peek()[0]);
-                        flagCondition = true;
-                    }
-                }
-            }
-            if (flagCondition == true) {
-                elevator.setTasks(commands.poll());
-                elevator.getElevator().setCurrentState("Moving");
-            }
-            else {
-                try {
-                	System.out.println("Waiting");
-                    synchronized(lock) {
-                        lock.wait();
-                    }
-                    System.out.println("Resume");
-                } catch (InterruptedException e1) {
-                    e1.printStackTrace();
-                }
-            }
+        while (!commands.isEmpty()) {
+            ElevatorThread selectedElevator = findNearestIdleElevator();
             
+            if (selectedElevator != null) {
+            	Integer[] commandArray = commands.poll();
+            	ElevatorCommand commandToSend = new ElevatorCommand(commandArray[0], commandArray[1]);
+                selectedElevator.setTasks(commandToSend);
+                selectedElevator.getElevator().setCurrentState("Moving");
+            } else {
+                waitForElevatorAvailability();
+            }
         }
-            
+    }
+
+    private ElevatorThread findNearestIdleElevator() {
+        ElevatorThread selectedElevator = null;
+        int minDistance = Integer.MAX_VALUE;
+
+        for (ElevatorThread elevator : elevators.keySet()) {
+            if (elevator.getElevator().getCurrentState().equals("Idle")) {
+                int distance = Math.abs(elevator.getElevator().getCurrentFloor() - commands.peek()[0]);
+                if (distance <= minDistance) {
+                    selectedElevator = elevator;
+                    minDistance = distance;
+                }
+            }
+        }
+
+        return selectedElevator;
+    }
+
+    private void waitForElevatorAvailability() {
+        try {
+            System.out.println("Waiting");
+            synchronized (lock) {
+                lock.wait();
+            }
+            System.out.println("Resume");
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 }

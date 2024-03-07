@@ -18,9 +18,37 @@ conflict resolution
 11. git push (done)
 
 
-- At the end of running command, the elevatorThread should notify Manager
-- We want the elevatorThreads to set to idle when there is no command, and wait() 
-	-> Manager needs to notify lift to activate them before sending command
-- Create scanner console input to put into queue
+- At the end of running command, the elevatorThread should notify Manager 5b (MANNJOE & BRYANT)
+- We want the elevatorThreads to set to idle when there is no command, and wait() (MANNJOE & BRYANT)
+	-> Manager needs to notify lift to activate them before sending command (MANNJOE & BRYANT)
+- Create scanner console input to put into queue (MORELLA)
+- Refactor code 
+	-> split the whichElevatorToGo() (MAY, BRYANT)
+	-> use ElevatorCommand class to store commands as objects (TIM)
+	-> add comments / JavaDoc (TIM)
+	-> improve readability of console - add more prompts to see what  (i.e., guest calling from x to y) (TIM)
+- Create slides (MAY)
+- Create UML (TIM)
+
+
+
+
+---- Full Program Flow ----
+1. Manager reads text file, gets commands
+2. Manager commands into queue
+3. Manager takes first item in queue to 
+	3a. If there are idle lifts, assign to suitable lift call queue (idle and closest)
+		3ai.  Elevator setState to 'Moving'
+		3aii. NotifyAll() elevatorThread -> stop ElevatorThread wait() 5c
+	3b. If there are NO idle lifts (all lifts 'Moving'), wait()
+4. ElevatorThread takes from call queue and pass to elevator to execute call
+	4a. Elevator moves to guest
+	4b. Elevator picks up guests
+	4c. Elevator moves to destination
+	4d. Elevator offloads guests
+5. If elevator call queue is empty,
+	5a. Elevator setState to 'Idle'
+	5b. notifyAll() -> tell Manager thread 3b
+	5c. ElevatorThread wait()
 
 
