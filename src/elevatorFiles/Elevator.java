@@ -46,7 +46,6 @@ public class Elevator {
 	public void load() {
 		// Print message indicating loading passengers
 		System.out.println("Time: " + Clock.getTime() + " \t| " + "Loading passengers in " + getElevatorThreadName());
-		System.out.println("Loading passengers in " + getElevatorThreadName());
 		try {
 			// Simulate loading passengers
 			Thread.sleep(LOAD_UNLOAD_TIME);
@@ -56,8 +55,7 @@ public class Elevator {
 			e.printStackTrace();
 		}
 		// Print message indicating all passengers are aboard
-		System.out.print("Time: " + Clock.getTime() + " \t| " + "Passengers all aboard " + getElevatorThreadName());
-		System.out.println("Passengers all aboard " + getElevatorThreadName());
+		System.out.println("Time: " + Clock.getTime() + " \t| " + "Passengers all aboard " + getElevatorThreadName());
 	}
 
 	/**
