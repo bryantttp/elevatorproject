@@ -20,21 +20,6 @@ public class Clock implements Runnable {
 		return displayTime;
 	}
 	
-	
-	public static void startClock() {
-		Thread clock = new Thread(() -> {
-			while ( true ) {
-				try {
-					Thread.currentThread().sleep(500);
-				} catch (InterruptedException e) {
-					e.printStackTrace();
-				} finally {
-					tick();
-				}
-				
-			}
-		});
-	}
 
 	/**
 	 * Method to increase simulated time
