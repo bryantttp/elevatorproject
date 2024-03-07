@@ -8,7 +8,6 @@ public class Elevator {
 
 	private final int MOVE_TIME = 1000;
 	private final int LOAD_UNLOAD_TIME = 5000;
-	private final int FACTOR = 5;
 
 	private int currentFloor = 1;
 	private String currentState = "Idle";
@@ -26,8 +25,6 @@ public class Elevator {
 					+ destination);
 			// Simulate elevator movement
 			Thread.sleep(MOVE_TIME);
-			// Increase simulation time
-			Clock.tick();
 			// Print message indicating arrival at destination floor
 			System.out.println("Time: " + Clock.getTime() + " \t| " + getElevatorThreadName() + " has reached Level "
 					+ destination);
@@ -47,8 +44,6 @@ public class Elevator {
 		System.out.println("Time: " + Clock.getTime() + " \t| " + "Loading passengers in " + getElevatorThreadName());
 		// Simulate loading passengers
 		Thread.sleep(LOAD_UNLOAD_TIME);
-		// Increase simulation time
-		Clock.tick(FACTOR);
 		// Print message indicating all passengers are aboard
 		System.out.println("Time: " + Clock.getTime() + " \t| " + "Passengers all aboard " + getElevatorThreadName());
 	}
@@ -62,8 +57,6 @@ public class Elevator {
 				.println("Time: " + Clock.getTime() + " \t| " + "Unloading passengers from " + getElevatorThreadName());
 		// Simulate unloading passengers
 		Thread.sleep(LOAD_UNLOAD_TIME);
-		// Increase simulation time
-		Clock.tick(FACTOR);
 		// Print message indicating all passengers are unloaded
 		System.out.println(
 				"Time: " + Clock.getTime() + " \t| " + "All passengers unloaded from " + getElevatorThreadName());
