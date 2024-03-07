@@ -66,12 +66,15 @@ public class ElevatorThread implements Runnable {
 		while (true) {
 			if (!tasks.isEmpty()) {
 				command = tasks.poll(); // Retrieve and remove the next command from the task queue
-				System.out.println(elevator.getElevatorThreadName() + " is accepting call from passengers at Level "
-						+ command.getOrigin());
-				elevator.move(command.getOrigin());
-				elevator.load();
-				elevator.move(command.getDestination());
-				elevator.offload();
+				System.out.println(elevator.getElevatorThreadName() + " is accepting call from passengers at Level " + command.getOrigin());
+				try {
+					elevator.move(command.getOrigin());
+					elevator.load();
+					elevator.move(command.getDestination());
+					elevator.offload();
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
 				System.out.println(Thread.currentThread().getName() + " is available at Level " + elevator.getCurrentFloor());
 				synchronized (Manager.lock) {
 					Manager.lock.notifyAll(); // Notify other threads waiting on Manager.lock

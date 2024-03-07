@@ -12,62 +12,67 @@ import java.util.Queue;
 /**
  * The Manager class manages the elevators and commands in the simulation.
  */
-public class Manager {	
-    private Map<ElevatorThread,Thread> elevators = new HashMap<ElevatorThread,Thread>();
-    private Queue<Integer[]> commands = new LinkedList<Integer[]>();
-    static Object lock = new Object();
-    
-    /**
-     * Retrieves the elevators.
-     * @return A map containing the elevators.
-     */
-    public Map<ElevatorThread,Thread> getElevators(){
-        return this.elevators;
-    }
-    
-    /**
-     * Sets the elevators.
-     * @param elevators1 The elevators to set.
-     */
-    public void setElevators(ElevatorThread ...elevators1 ) {
-        for (ElevatorThread e : elevators1) {
-            Thread t = new Thread(e);
-            this.elevators.put(e,t);
-        }
-    }
-    
-    /**
-     * Retrieves the commands.
-     * @return A queue containing the commands.
-     */
-    public Queue<Integer[]> getCommands(){
-        return commands;
-    }
-    
-    /**
-     * Sets the commands from a file.
-     * @param file The file containing the commands.
-     */
-    public void setCommands(File file) {
-        System.out.println("Reading commands");
-        try (BufferedReader reader = new BufferedReader(new FileReader(file))){
-            String line;
-            while ((line = reader.readLine()) != null) {
-                String[] input = line.split(" ");
-                for (int i = 0; i < input.length ; i += 2) {
-                    int origin = Integer.parseInt(input[i]);
-                    int destination = Integer.parseInt(input[i+1]);
-                    Integer[] tempCommand = new Integer[2];
-                    tempCommand[0] = origin;
-                    tempCommand[1] = destination;
-                    this.commands.add(tempCommand);
-                }
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        System.out.println("Commands received");
-    }
+public class Manager {
+	private Map<ElevatorThread, Thread> elevators = new HashMap<ElevatorThread, Thread>();
+	private Queue<ElevatorCommand> commands = new LinkedList<>();
+	static Object lock = new Object();
+
+	/**
+	 * Retrieves the elevators.
+	 * 
+	 * @return A map containing the elevators.
+	 */
+	public Map<ElevatorThread, Thread> getElevators() {
+		return this.elevators;
+	}
+
+	/**
+	 * Sets the elevators.
+	 * 
+	 * @param elevators1 The elevators to set.
+	 */
+	public void setElevators(ElevatorThread... elevators1) {
+		for (ElevatorThread e : elevators1) {
+			Thread t = new Thread(e);
+			this.elevators.put(e, t);
+		}
+	}
+
+	/**
+	 * Retrieves the commands.
+	 * 
+	 * @return A queue containing the commands.
+	 */
+	public Queue<ElevatorCommand> getCommands() {
+		return commands;
+	}
+
+	/**
+	 * Sets the commands from a file.
+	 * 
+	 * @param file The file containing the commands.
+	 */
+	public void setCommands(File file) {
+		System.out.println("Reading commands");
+		try (BufferedReader bR = new BufferedReader(new FileReader(file))) {
+			String line;
+			while ((line = bR.readLine()) != null) {
+				String[] input = line.split(" ");
+				for (int i = 0; i < input.length; i += 2) {
+					int origin = Integer.parseInt(input[i]);
+					int destination = Integer.parseInt(input[i + 1]);
+
+					ElevatorCommand newCommand = new ElevatorCommand(origin, destination);
+					this.commands.add(newCommand);
+
+				}
+			}
+			bR.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		System.out.println("Commands received");
+	}
 
 	/**
 	 * sends command to nearest elevator calls selectedElevator() to check for
@@ -78,9 +83,10 @@ public class Manager {
 			ElevatorThread selectedElevator = findNearestIdleElevator();
 
 			if (selectedElevator != null) {
-				Integer[] commandArray = commands.poll();
-				ElevatorCommand commandToSend = new ElevatorCommand(commandArray[0], commandArray[1]);
+				ElevatorCommand commandToSend = commands.poll();
 				selectedElevator.setTasks(commandToSend);
+				System.out.println("Passengers call from Level " + commandToSend.getOrigin() + ", drop-off at Level "
+						+ commandToSend.getDestination() + ".");
 				selectedElevator.getElevator().setCurrentState("Moving");
 				synchronized (selectedElevator.lock) {
 					selectedElevator.lock.notifyAll();
@@ -103,8 +109,8 @@ public class Manager {
 
 		for (ElevatorThread elevator : elevators.keySet()) {
 			if (elevator.getElevator().getCurrentState().equals("Idle")) {
-				int distance = Math.abs(elevator.getElevator().getCurrentFloor() - commands.peek()[0]);
-				if (distance <= minDistance) {
+				int distance = Math.abs(elevator.getElevator().getCurrentFloor() - commands.peek().getOrigin());
+				if (distance < minDistance) {
 					selectedElevator = elevator;
 					minDistance = distance;
 				}
