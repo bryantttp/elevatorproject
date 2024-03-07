@@ -8,6 +8,8 @@ public class Elevator {
 	public void move(int destination) {
 		if (this.currentFloor != destination) {
 			
+			
+			
 			System.out.print("Time: " + Clock.getTime() + " \t| ");
 			System.out.println(Thread.currentThread().getName() + " is moving to Level " + destination);
 			try {

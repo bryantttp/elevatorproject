@@ -15,9 +15,7 @@ public class Clock {
 	
 	public static int getTime() {
 
-		int x = 0;
-		int y = 1;
-		// random comment
+
 
 		return Clock.time;
 	}

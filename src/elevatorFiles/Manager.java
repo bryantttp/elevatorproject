@@ -71,6 +71,7 @@ public class Manager {
 			}
 			if (flagCondition == true) {
 				elevator.setTasks(commands.peek());
+				elevator.getElevator().setCurrentState("Moving");
 //				Thread thread = new Thread(elevator);
 //				thread.setName(elevators.get(elevator).getName());
 //				thread.start();

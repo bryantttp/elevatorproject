@@ -26,7 +26,7 @@ now i have a call at floor 8
 
 - elevatorThread.run() -> change to accept multiple runnables, only one thread can read from queue at once (MORELLA)
 - update setCommands(file) - shorten a bit (TIM)
-- add a method to read from console and add to the same queue -> easy
+- add a method to read from console and add to the same queue -> easy (TIM)
 - wait and notifyAll implementation (MAY)
 - add timing -> easy (TIM)
 - make elevator application run forever, until prompted to stop (MANNJOE)

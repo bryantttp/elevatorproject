@@ -1,0 +1,44 @@
+
+conflict resolution
+
+1. git add .
+2. git commit -m "msg"
+3. git fetch --> get update from online repo
+4. git status --> check which files have conflict 
+5. git pull -> git will try to merge your local with online
+5a. if it fails -> open in IDE, >>>>>HEAD (conflict) lksajfioqwjefo <<<<
+5b. save the file (Ctrl + S)
+
+6. git add .
+7. git commit -m "Resolve conflict on xxx"
+8. git fetch --> get update (now should have no update)
+9. git status --> your local repo is ahead of online 
+10. git pull --> should show up to date
+(if steps 8 - 10 show that there is still conflict, go back to 5)
+11. git push (done)
+
+
+- At the end of running command, the elevatorThread should notify Manager
+- We want the elevatorThreads to set to idle when there is no command, and wait() 
+	-> Manager needs to notify lift to activate them before sending command
+- Create scanner console input to put into queue
+
+---- Full Program Flow ----
+1. Manager reads text file, gets commands
+2. Manager commands into queue
+3. Manager takes first item in queue to 
+	3a. If there are idle lifts, assign to suitable lift call queue (idle and closest)
+		3ai.  Elevator setState to 'Moving'
+		3aii. NotifyAll() elevatorThread -> stop ElevatorThread wait() 5c
+	3b. If there are NO idle lifts (all lifts 'Moving'), wait()
+4. ElevatorThread takes from call queue and pass to elevator to execute call
+	4a. Elevator moves to guest
+	4b. Elevator picks up guests
+	4c. Elevator moves to destination
+	4d. Elevator offloads guests
+5. If elevator call queue is empty,
+	5a. Elevator setState to 'Idle'
+	5b. notifyAll() -> tell Manager thread 3b
+	5c. ElevatorThread wait()
+
+

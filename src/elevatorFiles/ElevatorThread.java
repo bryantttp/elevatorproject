@@ -43,18 +43,24 @@ public class ElevatorThread implements Runnable{
 		while(true) {
 			if (tasks.size() >= 1) {
 				command = tasks.peek();
-				elevator.setCurrentState("Moving");
 				elevator.move(command[0]);
 				elevator.load();
 				elevator.move(command[1]);
 				elevator.offload();
-				elevator.setCurrentState("Idle");
 				System.out.println(Thread.currentThread().getName() + " is available");
 				tasks.poll();
 			}
-			
+			else {
+				elevator.setCurrentState("Idle");
+			}
 		}
-	}		
-}
+//				elevator.setCurrentState("Idle");
+//				System.out.println(Thread.currentThread().getName() + " is available");
+//				tasks.poll();
+			}
+			
+		
+}		
+
 	
 
