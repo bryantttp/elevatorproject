@@ -16,7 +16,7 @@ public class Runner {
 			manager.getElevators().get(elevatorThread).setName("Elevator " + i);
 		}
 
-		manager.getCommandsFromConsole();
+		manager.consoleCommands();
 		// Set commands file
 		manager.setCommands(new File("test.txt"));
 
