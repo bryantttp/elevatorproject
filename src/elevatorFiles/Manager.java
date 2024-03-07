@@ -14,7 +14,7 @@ import java.util.Queue;
  */
 public class Manager {	
     private Map<ElevatorThread,Thread> elevators = new HashMap<ElevatorThread,Thread>();
-    private Queue<Integer[]> commands = new LinkedList<Integer[]>();
+    private Queue<ElevatorCommand> commands = new LinkedList<ElevatorCommand>();
     static Object lock = new Object();
     
     /**
@@ -40,7 +40,7 @@ public class Manager {
      * Retrieves the commands.
      * @return A queue containing the commands.
      */
-    public Queue<Integer[]> getCommands(){
+    public Queue<ElevatorCommand> getCommands(){
         return commands;
     }
     
@@ -57,9 +57,8 @@ public class Manager {
                 for (int i = 0; i < input.length ; i += 2) {
                     int origin = Integer.parseInt(input[i]);
                     int destination = Integer.parseInt(input[i+1]);
-                    Integer[] tempCommand = new Integer[2];
-                    tempCommand[0] = origin;
-                    tempCommand[1] = destination;
+                   
+                    ElevatorCommand tempCommand = new ElevatorCommand(origin, destination);
                     this.commands.add(tempCommand);
                 }
             }
@@ -80,8 +79,7 @@ public class Manager {
             ElevatorThread selectedElevator = findNearestIdleElevator();
             
             if (selectedElevator != null) {
-            	Integer[] commandArray = commands.poll();
-            	ElevatorCommand commandToSend = new ElevatorCommand(commandArray[0], commandArray[1]);
+            	ElevatorCommand commandToSend = commands.poll();
                 selectedElevator.setTasks(commandToSend);
                 System.out.println("Passengers call from Level " + commandToSend.getOrigin() + ", drop-off at Level 7." );
                 selectedElevator.getElevator().setCurrentState("Moving");
@@ -103,7 +101,7 @@ public class Manager {
 
         for (ElevatorThread elevator : elevators.keySet()) {
             if (elevator.getElevator().getCurrentState().equals("Idle")) {
-                int distance = Math.abs(elevator.getElevator().getCurrentFloor() - commands.peek()[0]);
+                int distance = Math.abs(elevator.getElevator().getCurrentFloor() - commands.peek().getOrigin());
                 if (distance <= minDistance) {
                     selectedElevator = elevator;
                     minDistance = distance;
