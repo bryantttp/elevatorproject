@@ -98,6 +98,19 @@ public class Manager {
 				waitForElevatorAvailability();
 			}
 		}
+	    while (true) {
+	    	int numberOfIdleLifts = 0;
+	    	for (ElevatorThread e : elevators.keySet()) {
+	    		if (e.getElevator().getCurrentState() == "Idle") {
+	    			numberOfIdleLifts += 1;
+	    		}
+	    	}
+	    	if (numberOfIdleLifts == elevators.keySet().size()) {
+	    		if (commands.size() == 0) {
+	    			this.consoleCommands();
+	    		}
+	    	}
+	    }
 	}
 
 	/**
@@ -142,34 +155,52 @@ public class Manager {
      */
     public void consoleCommands() {
 	    Scanner sc = new Scanner(System.in);
-	    System.out.println("Do you want to input passenger commands to the console?");
-	    String response = null;
-	    while((response = sc.nextLine()).isEmpty()) {
+	    String response1 = null;
+	    System.out.println("Do you want to start/continue using the elevator manager?");
+	    while((response1 = sc.nextLine()).isEmpty()) {
 	    	System.out.println("Invalid Response, please input a Yes or No answer");
 	    }
+	    if (response1.charAt(0) == 'Y' || response1.charAt(0) == 'y'){
+	    	System.out.println("Do you want to input passenger commands to the console?");
+		    String response2 = null;
+		    while((response2 = sc.nextLine()).isEmpty()) {
+		    	System.out.println("Invalid Response, please input a Yes or No answer");
+		    }
 
-	    // if they want to add inputs to the console
-	    // only typing yes will allow you to add more commands
-	    if (response.charAt(0) == 'Y' || response.charAt(0) == 'y'){
-	    	getCommandsFromConsole();
+		    // if they want to add inputs to the console
+		    // only typing yes will allow you to add more commands
+		    if (response2.charAt(0) == 'Y' || response2.charAt(0) == 'y'){
+		    	getCommandsFromConsole();
+		    }
+		    else {
+		    	setCommands(new File ("test.txt"));
+				try {
+					deployElevators();
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
+		    }
+		}
+	    else {
+	    	sc.close();
+	    	System.exit(0);
 	    }
-
     }
+    
     /*
      * for an input floor and an output destination
      */
     public void getCommandsFromConsole(){
 
 	    boolean morePassengerCommands = true;
+	    Scanner sc1 = new Scanner(System.in);  // Create a Scanner object
 	    while (morePassengerCommands) {
-		    Scanner sc = new Scanner(System.in);  // Create a Scanner object
-
 		    System.out.println("Enter which floor you're in");
 		    String line1;	
 		    
 		    // checks if  the input was empty and if not numeric
 		    	// while line1 is empty and not numeric
-		    while((line1 = sc.nextLine()).isEmpty() || !isNumeric(line1)) {
+		    while((line1 = sc1.nextLine()).isEmpty() || !isNumeric(line1)) {
 		    	
 		    	System.out.println("Enter which floor you're in again");
 		    }
@@ -181,7 +212,7 @@ public class Manager {
 		    System.out.println("Enter which floor to go");
 		    String line2 = null;
 		    // checks if  the input was empty
-		    while((line2 = sc.nextLine()).isEmpty() || !isNumeric(line1)) {
+		    while((line2 = sc1.nextLine()).isEmpty() || !isNumeric(line1)) {
 		    	System.out.println("Enter which floor you're in");
 		    }
 		    destination = Integer.parseInt(line2);  // Read user input and change it to integer
@@ -193,7 +224,7 @@ public class Manager {
 		    // checks if there are more passengers to be loaded
 		    System.out.println("Any more passengers wanting to board?");
 		    String response = null;
-		    while((response = sc.nextLine()).isEmpty()) {
+		    while((response = sc1.nextLine()).isEmpty()) {
 		    	System.out.println("Any more passengers wanting to board?");
 		    }
 
@@ -202,10 +233,14 @@ public class Manager {
 		    	morePassengerCommands = true;
 		    }
 		    else {
-		    	break;
+		    	try {
+					deployElevators();
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
 		    }
-
 	    }
+	    sc1.close();
     }
     
 
