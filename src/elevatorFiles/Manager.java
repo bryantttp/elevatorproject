@@ -83,7 +83,7 @@ public class Manager {
             	Integer[] commandArray = commands.poll();
             	ElevatorCommand commandToSend = new ElevatorCommand(commandArray[0], commandArray[1]);
                 selectedElevator.setTasks(commandToSend);
-                System.out.println("Passengers call from Level " + commandToSend.getOrigin() );
+                System.out.println("Passengers call from Level " + commandToSend.getOrigin() + ", drop-off at Level 7." );
                 selectedElevator.getElevator().setCurrentState("Moving");
             } else {
                 waitForElevatorAvailability();
