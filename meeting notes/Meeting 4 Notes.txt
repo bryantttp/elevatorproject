@@ -1,0 +1,26 @@
+
+conflict resolution
+
+1. git add .
+2. git commit -m "msg"
+3. git fetch --> get update from online repo
+4. git status --> check which files have conflict 
+5. git pull -> git will try to merge your local with online
+5a. if it fails -> open in IDE, >>>>>HEAD (conflict) lksajfioqwjefo <<<<
+5b. save the file (Ctrl + S)
+
+6. git add .
+7. git commit -m "Resolve conflict on xxx"
+8. git fetch --> get update (now should have no update)
+9. git status --> your local repo is ahead of online 
+10. git pull --> should show up to date
+(if steps 8 - 10 show that there is still conflict, go back to 5)
+11. git push (done)
+
+
+- At the end of running command, the elevatorThread should notify Manager
+- We want the elevatorThreads to set to idle when there is no command, and wait() 
+	-> Manager needs to notify lift to activate them before sending command
+- Create scanner console input to put into queue
+
+
