@@ -7,12 +7,11 @@ public class Clock {
 	private static int time = 0;
 	
 
-	// Add default constructor
 	
-	public Clock() {
-		
-	}
-	
+	/** Returns a clock-display format of time for console printing purposes
+	 * 
+	 * @return displayTime time in a clock format xx:yy 
+	 */
 	public static String getTime() {
 		String minutes = String.valueOf(time / 60);
 		String seconds = String.format("%02d", time % 60);
@@ -29,6 +28,10 @@ public class Clock {
 		time++;
 	}
 	
+	/**
+	 * Overloaded method to increase simulated time with specified input
+	 * @param duration the duration of simulated seconds to increase time by
+	 */
 	public static void tick(int duration) {
 		time+=duration;
 	}

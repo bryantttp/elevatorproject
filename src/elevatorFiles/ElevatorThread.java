@@ -56,6 +56,7 @@ public class ElevatorThread implements Runnable {
 	 */
 	public void setTasks(ElevatorCommand command) {
 		this.tasks.add(command);
+		
 	}
 
 	/**
@@ -88,6 +89,7 @@ public class ElevatorThread implements Runnable {
 		while (true) {
 			if (!tasks.isEmpty()) {
 				command = tasks.poll(); // Retrieve and remove the next command from the task queue
+				System.out.println(elevator.getElevatorThreadName() + " is accepting call from passengers at Level " + command.getOrigin());
 				elevator.move(command.getOrigin());
 				elevator.load();
 				elevator.move(command.getDestination());

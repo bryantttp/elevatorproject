@@ -50,9 +50,13 @@ public class Manager {
      * @param file The file containing the commands.
      */
     public void setCommands(File file) {
-        System.out.println("Reading commands");
+        
+    	// Reads commands from input file
+    	System.out.println("Reading commands");
         try (BufferedReader bR = new BufferedReader(new FileReader(file))){
-            String line;
+            
+        	// Reading each line iteratively until end of file
+        	String line;
             while ((line = bR.readLine()) != null) {
                 String[] input = line.split(" ");
                 for (int i = 0; i < input.length ; i += 2) {
@@ -62,6 +66,7 @@ public class Manager {
                     this.commands.add(inputCommand);
                 }
             }
+            
             bR.close();
         } catch (IOException e) {
             e.printStackTrace();
@@ -81,15 +86,17 @@ public class Manager {
                 // Checks if elevator is idle
                 if (e.getElevator().getCurrentState() == "Idle") {
                     // Input to get elevator
-                if (Math.abs(e.getElevator().getCurrentFloor()- this.commands.peek().getOrigin()) <= distance ) {
+                if (Math.abs( e.getElevator().getCurrentFloor() - this.commands.peek().getOrigin() ) <= distance ) {
                         elevator = e;
                         distance = Math.abs(e.getElevator().getCurrentFloor()- this.commands.peek().getOrigin());
                         flagCondition = true;
+                        
                     }
                 }
             }
             if (flagCondition == true) {
-                elevator.setTasks(commands.poll());
+            	System.out.println("Passengers call from Level " + this.commands.peek().getOrigin() );
+            	elevator.setTasks(commands.poll());
                 elevator.getElevator().setCurrentState("Moving");
             }
             else {
