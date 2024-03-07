@@ -14,7 +14,7 @@ import java.util.Queue;
  */
 public class Manager {	
     private Map<ElevatorThread,Thread> elevators = new HashMap<ElevatorThread,Thread>();
-    private Queue<ElevatorCommand> commands = new LinkedList<ElevatorCommand>();
+    private Queue<ElevatorCommand> commands = new LinkedList<>();
     static Object lock = new Object();
     
     /**
@@ -57,9 +57,10 @@ public class Manager {
                 for (int i = 0; i < input.length ; i += 2) {
                     int origin = Integer.parseInt(input[i]);
                     int destination = Integer.parseInt(input[i+1]);
-                   
-                    ElevatorCommand tempCommand = new ElevatorCommand(origin, destination);
-                    this.commands.add(tempCommand);
+
+                    ElevatorCommand newCommand = new ElevatorCommand(origin, destination);
+                    this.commands.add(newCommand);
+
                 }
             }
             bR.close();
@@ -81,7 +82,7 @@ public class Manager {
             if (selectedElevator != null) {
             	ElevatorCommand commandToSend = commands.poll();
                 selectedElevator.setTasks(commandToSend);
-                System.out.println("Passengers call from Level " + commandToSend.getOrigin() + ", drop-off at Level 7." );
+                System.out.println("Passengers call from Level " + commandToSend.getOrigin() + ", drop-off at Level "+ commandToSend.getDestination() +"." );
                 selectedElevator.getElevator().setCurrentState("Moving");
             } else {
                 waitForElevatorAvailability();

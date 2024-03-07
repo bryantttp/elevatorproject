@@ -36,7 +36,7 @@ public class Elevator {
 			this.currentFloor = destination;
 		} else {
 			// Print message indicating elevator is already at the requested floor
-			System.out.println("Time: " + Clock.getTime() + " \t| " + getElevatorThreadName() + " is already on the requested floor");
+			System.out.println("Time: " + Clock.getTime() + " \t| " + getElevatorThreadName() + " is already on the requested floor: Floor " + this.getCurrentFloor());
 		}
 	}
 
