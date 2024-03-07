@@ -28,15 +28,6 @@ public class Clock implements Runnable {
 		time++;
 	}
 	
-	/**
-	 * Overloaded method to increase simulated time with specified input
-	 * @param duration the duration of simulated seconds to increase time by
-	 */
-	public static void tick(int duration) {
-		time += duration;
-	}
-
-
 	@Override
 	public void run() {
 		while (true) {
