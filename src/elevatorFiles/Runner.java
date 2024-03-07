@@ -24,7 +24,13 @@ public class Runner {
 			thread.start();
 		}
 
-		// Deploy elevators
-		manager.deployElevators();
+		// Deploy elevators and start actual clock
+		Thread globalClock = new Thread(new Clock());
+		globalClock.start();
+		try {
+			manager.deployElevators();
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
 	}
 }

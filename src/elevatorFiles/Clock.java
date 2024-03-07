@@ -1,6 +1,6 @@
 package elevatorFiles;
 
-public class Clock {
+public class Clock implements Runnable {
 
 	// Attribute
 	// Create a static time variable which increases forever as the simulation runs
@@ -48,7 +48,22 @@ public class Clock {
 	 * @param duration the duration of simulated seconds to increase time by
 	 */
 	public static void tick(int duration) {
-		time+=duration;
+		time += duration;
+	}
+
+
+	@Override
+	public void run() {
+		while (true) {
+			try {
+				Thread.sleep(1000);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			} finally {
+				Clock.tick();
+			}
+		}
+		
 	}
 	
 }
